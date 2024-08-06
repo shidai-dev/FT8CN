@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bg7yoz.ft8cn.GeneralVariables;
+import com.bg7yoz.ft8cn.LocalLogManagerActivity;
 import com.bg7yoz.ft8cn.MainViewModel;
 import com.bg7yoz.ft8cn.R;
 import com.bg7yoz.ft8cn.databinding.FragmentLogBinding;
@@ -176,7 +177,13 @@ public class LogFragment extends Fragment {
                 queryByCallsign(binding.inputMycallEdit.getText().toString(), 0);//偏移量0，就是重新查询
             }
         });
-
+        binding.logLocalimageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), LocalLogManagerActivity.class);
+                startActivity(intent);
+            }
+        });
         //定位按钮的动作
         binding.locationInMapImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

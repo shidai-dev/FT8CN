@@ -27,6 +27,7 @@ import com.bg7yoz.ft8cn.maidenhead.MaidenheadGrid;
 import com.bg7yoz.ft8cn.rigs.BaseRigOperation;
 import com.bg7yoz.ft8cn.timer.UtcTimer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -195,7 +196,36 @@ public class LogHttpServer extends NanoHTTPD {
         }
         return GeneralVariables.getStringFromResource(R.string.html_illegal_command);
     }
+    public String doImportLogFile(String adifFile) {
+            Map<String, String> files = new HashMap<>();
+            //Map<String, String> header = session.getHeaders();
+            try {
+                Log.e(TAG, "doImportLogFile: information:" + adifFile);
+                String param = "LoTW";
+                ImportTaskList.ImportTask task = importTaskList.addTask(param.hashCode());//生成一个新的任务
 
+                LogFileImport logFileImport = new LogFileImport(task, adifFile);
+
+
+                //把提交的数据放到一个独立的线程运行，防止WEB页面停留太久
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doImportADI(task, logFileImport);
+                    }
+                }).start();
+
+                //重定向,跳转到实时导入信息界面
+                return String.format("<head>\n<meta http-equiv=\"Refresh\" content=\"0; URL=getImportTask?session=%d\" /></head><body></body>"
+                        , param.hashCode());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return String.format(GeneralVariables.getStringFromResource(R.string.html_import_failed)
+                        , e.getMessage());
+            }
+
+    }
 
     private String makeGetImportTaskHTML(IHTTPSession session) {
         String script = "";
