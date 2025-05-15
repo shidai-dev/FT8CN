@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiInfo;
@@ -38,6 +39,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bg7yoz.ft8cn.GeneralVariables;
+import com.bg7yoz.ft8cn.LocalLogManagerActivity;
 import com.bg7yoz.ft8cn.MainViewModel;
 import com.bg7yoz.ft8cn.R;
 import com.bg7yoz.ft8cn.log.ShareLogs;
@@ -53,6 +55,8 @@ import com.bg7yoz.ft8cn.log.QSLRecordStr;
 import com.bg7yoz.ft8cn.log.OnShareLogEvents;
 
 import java.io.File;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -178,7 +182,14 @@ public class LogFragment extends Fragment {
                 queryByCallsign(binding.inputMycallEdit.getText().toString(), 0);//偏移量0，就是重新查询
             }
         });
-
+        binding.logLocalimageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), LocalLogManagerActivity.class);
+                startActivity(intent);
+            }
+        });
         //定位按钮的动作
         binding.locationInMapImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

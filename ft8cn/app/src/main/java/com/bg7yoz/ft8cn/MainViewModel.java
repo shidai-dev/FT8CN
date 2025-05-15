@@ -29,7 +29,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -63,7 +65,7 @@ import com.bg7yoz.ft8cn.icom.WifiRig;
 import com.bg7yoz.ft8cn.log.QSLCallsignRecord;
 import com.bg7yoz.ft8cn.log.QSLRecord;
 import com.bg7yoz.ft8cn.log.SWLQsoList;
-import com.bg7yoz.ft8cn.log.ThirdPartyService;
+import com.bg7yoz.ft8cn.lotwlook.lotw.QueryLoTW;
 import com.bg7yoz.ft8cn.rigs.BaseRig;
 import com.bg7yoz.ft8cn.rigs.BaseRigOperation;
 import com.bg7yoz.ft8cn.rigs.ElecraftRig;
@@ -95,6 +97,7 @@ import com.bg7yoz.ft8cn.ui.ToastMessage;
 import com.bg7yoz.ft8cn.wave.HamRecorder;
 import com.bg7yoz.ft8cn.wave.OnGetVoiceDataDone;
 import com.bg7yoz.ft8cn.x6100.X6100Radio;
+import com.bg7yoz.ft8cn.log.ThirdPartyService;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +110,7 @@ import java.util.concurrent.Executors;
 public class MainViewModel extends ViewModel {
     String TAG = "ft8cn MainViewModel";
     public boolean configIsLoaded = false;
-
+    private Context mContext = null;
     private static MainViewModel viewModel = null;//当前存在的实例。
     //public static Application application;
 
@@ -226,7 +229,9 @@ public class MainViewModel extends ViewModel {
 
     //日志管理HTTP SERVER
     private final LogHttpServer httpServer;
-
+    public LogHttpServer getHttpServer(){
+        return httpServer;
+    }
     /**
      * 获取MainViewModel的实例，确保存在唯一的MainViewModel实例，该实例在APP的全部生存周期中。
      *
@@ -257,7 +262,7 @@ public class MainViewModel extends ViewModel {
      */
     //@RequiresApi(api = Build.VERSION_CODES.N)
     public MainViewModel() {
-
+        mContext = GeneralVariables.getMainContext();
         //获取配置信息。
         databaseOpr = DatabaseOpr.getInstance(GeneralVariables.getMainContext()
                 , "data.db");

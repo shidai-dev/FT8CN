@@ -66,6 +66,7 @@ import com.bg7yoz.ft8cn.ui.ToastMessage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
             , Manifest.permission.BLUETOOTH_ADMIN
             , Manifest.permission.MODIFY_AUDIO_SETTINGS
             , Manifest.permission.WAKE_LOCK
-            , Manifest.permission.ACCESS_FINE_LOCATION};
+            , Manifest.permission.ACCESS_FINE_LOCATION
+            , Manifest.permission.MANAGE_EXTERNAL_STORAGE};
     List<String> mPermissionList = new ArrayList<>();
 
     private static final int PERMISSION_REQUEST = 1;
@@ -109,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
                     , Manifest.permission.BLUETOOTH_CONNECT
                     , Manifest.permission.MODIFY_AUDIO_SETTINGS
                     , Manifest.permission.WAKE_LOCK
-                    , Manifest.permission.ACCESS_FINE_LOCATION};
+                    , Manifest.permission.ACCESS_FINE_LOCATION
+                    ,Manifest.permission.INTERNET
+                    ,Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            };
         }
 
         checkPermission();
